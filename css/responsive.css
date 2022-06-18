@@ -1,0 +1,31 @@
+@media (max-width: 600px){
+    #scramble {
+        font-size: 17px;
+        display: block;
+        margin-left: 10%;
+        margin-right: 10%;
+        overflow: auto;
+    }
+    
+    #crono {
+        font-size: 60px;
+    }
+
+    #instruciones {
+        display: none;
+    }
+
+    .stats-div {
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+
+    #tiempo_scramble {
+        display: none;
+    }
+
+    .export_page{
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+}

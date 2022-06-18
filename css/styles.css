@@ -1,0 +1,252 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    overflow: auto;
+}
+
+body {
+    background-color: white;
+    font-family: 'Lato', sans-serif;
+}
+
+
+/*Menu*/
+
+.header {
+    margin: auto;
+    width: 100%;
+    overflow: auto;
+}
+
+.menu {
+    width: 100%;
+    overflow: auto;
+    background-color: #181D31;
+    list-style: none;
+}
+
+.menu li a {
+    background-color: #181D31;
+    color: white;
+    text-decoration: none;
+    padding: 20px;
+    display: block;
+}
+
+.menu li a:hover {
+    transition: all 300ms;
+    background-color: #678983;
+}
+
+.menu>li {
+    float: left;
+}
+
+.menu li ul {
+    list-style: none;
+    display: none;
+    position: absolute;
+}
+
+.menu li:hover>ul {
+    display: block;
+}
+
+
+/*Timer*/
+
+.timer_div {
+    width: 100%;
+    text-align: center;
+    color: #181D31;
+}
+
+#scramble {
+    font-size: 25px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+#crono {
+    font-weight: bold;
+    font-size: 130px;
+    padding-bottom: 50px;
+}
+
+/*Stats*/
+.stats-div {
+    /*
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    */
+    margin-left: 25%;
+    margin-right: 25%;
+}
+.stats-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    min-width: 100%;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.stats-table thead th {
+    background-color: #181D31;
+    color: white;
+    text-align: left;
+    font-weight: bold;
+}
+
+.stats-table th,
+.stats-table td {
+    padding: 12px 15px;
+}
+
+.stats-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.stats-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.stats-table tbody tr:last-of-type {
+    border-bottom: 2px solid #181D31;
+}
+
+/*Boton borrar tiempos*/
+
+#div_borrar_tiempos {
+    display: flex;
+    justify-content: right;
+    margin-right: 20%;
+}
+
+#boton_borrar_tiempos {
+    padding: 6px;
+    border-radius: 15px;
+    border: none;
+    background-color: white;
+}
+
+#boton_borrar_tiempos img {
+    max-width: 50px;
+}
+
+#boton_borrar_tiempos:hover {
+    transition: all 300ms;
+    background-color: #dadada;
+}
+
+#boton_borrar_tiempos:active {
+    transition: all 100ms;
+    background-color: #678983;
+}
+
+
+/*Lista resultados*/
+
+#lista_tiempos {
+    margin-right: 25%;
+    margin-left: 25%;
+}
+
+#tiempo {
+    font-size: 18px;
+    display: flex;
+    justify-content: left;
+    margin-bottom: 10px;
+}
+
+#tiempo_tiempo {
+    float: left;
+    margin-right: 30px;
+}
+
+#tiempo_scramble {
+    margin: 0;
+    padding: 0;
+    display: block;
+    overflow: auto;
+    width: max-content;
+}
+
+#tiempo hr {
+    margin-top: 10px;
+}
+
+#boton_borrar_tiempo {
+    float: right;
+    padding: 3px;
+    border-radius: 5px;
+    border: none;
+    background-color: white;
+}
+
+#boton_borrar_tiempo img {
+    width: 20px;
+}
+
+#boton_borrar_tiempo:hover {
+    transition: all 300ms;
+    background-color: #dadada;
+}
+
+#boton_borrar_tiempo:active {
+    transition: all 100ms;
+    background-color: #678983;
+}
+
+#plus_two {
+    float: right;
+    padding: 3px;
+    border-radius: 5px;
+    border: none;
+    background-color: white;
+}
+
+#plus_two p {
+    height: 18px;
+    padding: 3px;
+    font-weight: lighter;
+}
+
+#plus_two:hover {
+    transition: all 300ms;
+    background-color: #dadada;
+}
+
+#plus_two:active {
+    transition: all 100ms;
+    background-color: #678983;
+}
+
+#dnf {
+    float: right;
+    padding: 3px;
+    border-radius: 5px;
+    border: none;
+    background-color: white;
+}
+
+#dnf p {
+    height: 18px;
+    padding: 3px;
+    font-weight: lighter;
+}
+
+#dnf:hover {
+    transition: all 300ms;
+    background-color: #dadada;
+}
+
+#dnf:active {
+    transition: all 100ms;
+    background-color: #678983;
+}

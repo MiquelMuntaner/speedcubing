@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name= “viewport” content=”width=device-width, user-scalable=no” />
+    <link rel= “manifest” href= “manifest.json” />
+    <title>Speedcube</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="shortcut icon" type="image/jpg" href="img/favicon.png" />
+    <meta name="theme-color" content="#181D31" />
+</head>
+
+<body>
+    <div id="container">
+        <header class="header">
+            <ul class="menu">
+                <li><a href="index.html">Cronometro</a></li>
+                <li><a href="export.html">Importar o exportar tiempos</a></li>
+            </ul>
+        </header>
+        <div class="page">
+            <div class="timer_div">
+                <p id="scramble" focusable="false">F2 L2 B2 U L2 D' L2 D' L2 B2 D' L' B2 D' F' R F2 U2 L' F' U'</p>
+                <h2 id="crono" focusable="false">00:00.000</h2>
+                <p id="instruciones">Pulsa espacio para iniciar y cualquier tecla para parar</p>
+            </div>
+            <div class="stats-div">
+                <table class="stats-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Actual</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Ao5</td>
+                            <td id="actual_ao5">----</td>
+                        </tr>
+                        <tr>
+                            <td>Ao12</td>
+                            <td id="actual_ao12">----</td>
+                        </tr>
+                        <tr>
+                            <td>Mo3</td>
+                            <td id="actual_mo3">----</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="div_borrar_tiempos">
+                <button id="boton_borrar_tiempos" onclick="borrar_tiempos()" focusable="false"><img src="img/trash.png" alt="basura"></button>
+            </div>
+            <div id="lista_tiempos">
+            </div>
+        </div>
+    </div>
+    <script src="js/timer.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>

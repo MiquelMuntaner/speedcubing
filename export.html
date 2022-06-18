@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speedcube</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/export-styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="shortcut icon" type="image/jpg" href="img/favicon.png" />
+</head>
+
+<body>
+    <div id="container">
+        <header class="header">
+            <ul class="menu">
+                <li><a href="index.html">Cronometro</a></li>
+                <li><a href="export.html">Importar o exportar tiempos</a></li>
+            </ul>
+        </header>
+        <div class="export_page">
+            <p>Aquí puedes exportar o importar todos tus tiempos, para importarlo pegue los tiempos aquí abajo, para exportar los datos pulse en el botón y toda la información se guardará en el portapapeles para que lo puedas guardar en tu ordenador.</p>
+            <div id="import-div">
+                <input id="import" placeholder="Importar datos" type="text">
+                <button id="submit-import" type="button">Importar</button>
+            </div>
+            <button type="button" id="export-button">Exportar datos</button>
+        </div>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
