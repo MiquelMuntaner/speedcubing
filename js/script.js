@@ -95,6 +95,9 @@ function ao5(tiempos_almacenados) {
     if (tiempos.length >= 5) {
         ultimos_5_tiempos = [tiempos[tiempos.length-1], tiempos[tiempos.length-2], tiempos[tiempos.length-3], tiempos[tiempos.length-4], tiempos[tiempos.length-5]]
         
+        ultimos_5_tiempos = ultimos_5_tiempos.filter(function(value, index, arr) {
+            return i != "DNF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+        })
         // Pasando los numeros a milisegundos
         for(i in ultimos_5_tiempos) {
             tiempo_en_milisegundos = 0
@@ -130,6 +133,12 @@ function ao12(tiempos_almacenados) {
     if (tiempos.length >= 12) {
         ultimos_12_tiempos = [tiempos[tiempos.length-1], tiempos[tiempos.length-2], tiempos[tiempos.length-3], tiempos[tiempos.length-4], tiempos[tiempos.length-5], tiempos[tiempos.length-6], tiempos[tiempos.length-7], tiempos[tiempos.length-8], tiempos[tiempos.length-9], tiempos[tiempos.length-10], tiempos[tiempos.length-11], tiempos[tiempos.length-12]]
         
+        ultimos_12_tiempos = ultimos_12_tiempos.filter(function(value, index, arr) {
+            return i != "DNF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+        })
+
+        console.log(ultimos_12_tiempos)
+
         // Pasando los numeros a milisegundos
         for(i in ultimos_12_tiempos) {
             tiempo_en_milisegundos = 0
@@ -164,6 +173,10 @@ function mo3(tiempos_almacenados) {
 
     if (tiempos.length >= 3) {
         ultimos_3_tiempos = [tiempos[tiempos.length-1], tiempos[tiempos.length-2], tiempos[tiempos.length-3]]
+
+        ultimos_3_tiempos = ultimos_3_tiempos.filter(function(value, index, arr) {
+            return i != "DNF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+        })
         
         // Pasando los numeros a milisegundos
         for(i in ultimos_3_tiempos) {
@@ -182,15 +195,48 @@ function mo3(tiempos_almacenados) {
     }
 }
 
+
+// Original scramble generator: https://codepen.io/ET23/pen/ExdrNz
+function shuffle(o) {
+	for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+	return o;
+};
+
 function generar_mezcla() {
-    mezcla = ""
-    for (let i = 0; i < 21; i++) {
-        numero_random = Math.random() * (18 - 0) + 0;
-        numero_random = Math.trunc(numero_random)
-        mezcla = mezcla + notacion[numero_random] + "&nbsp;&nbsp;";
-    }
-    document.getElementById("scramble").innerHTML = mezcla;
-    console.log("mezcla generada")
+    var moves = new Array();
+	moves['r'] = new Array("R","R'","R2");
+	moves['l'] = new Array("L","L'","L2");
+	moves['u'] = new Array("U","U'","U2");
+	moves['d'] = new Array("D","D'","D2");
+	moves['f'] = new Array("F","F'","F2");
+	moves['b'] = new Array("B","B'","B2");
+
+	var limit = 25;
+	var last = "";
+	var scramble = "";
+	var keys = "";
+
+	for (var i=1;i<=limit;i++) {
+		keys = new Array("r","l","u","d","f","b");
+		shuffle(keys);
+		while (last == keys[0]) {
+			shuffle(keys);
+		}
+		shuffle(moves[keys[0]]);
+		move = moves[keys[0]][0];
+		scramble += move+"&nbsp;&nbsp;";
+		last = keys[0];
+	}
+	
+
+	scramble = scramble.replace("R R", "R2");
+	scramble = scramble.replace("L L", "L2");
+	scramble = scramble.replace("U U", "U2");
+	scramble = scramble.replace("D D", "D2");
+	scramble = scramble.replace("F F", "F2");
+	scramble = scramble.replace("B B", "B2");
+
+    document.getElementById("scramble").innerHTML = scramble;
 }
 
 function almacenar() {
@@ -243,22 +289,25 @@ function borrar_tiempo(index) {
 
 function plus_two(index) {
     tiempo = tiempos_almacenados[index]
-    segundos = tiempo.charAt(3) + tiempo.charAt(4)
-    segundos_mas_dos = (parseInt(segundos) + 2).toString()
-    if (parseInt(segundos_mas_dos) > 59) {
-        minutos = tiempo.charAt(0) + tiempo.charAt(1)
-        minutos_mas_uno = (parseInt(minutos) + 1).toString()
-        segundos_mas_dos = (parseInt(segundos_mas_dos) - 60).toString()
-        if (parseInt(segundos_mas_dos) < 10) { segundos_mas_dos = "0" + segundos_mas_dos }
-        if (parseInt(minutos_mas_uno) < 10) { minutos_mas_uno = "0" + minutos_mas_uno }
-        tiempo = minutos_mas_uno[0] + minutos_mas_uno[1] + tiempo[2] + segundos_mas_dos[0] + segundos_mas_dos[1] + tiempo[5] + tiempo[6] + tiempo[7] + tiempo[8]
-    } else {
-        if (parseInt(segundos_mas_dos) < 10) { segundos_mas_dos = "0" + segundos_mas_dos }
-        tiempo = tiempo[0] + tiempo[1] + tiempo[2] + segundos_mas_dos[0] + segundos_mas_dos[1] + tiempo[5] + tiempo[6] + tiempo[7] + tiempo[8]
+    console.log(tiempo)
+    if (tiempo != "DNF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;") {
+        segundos = tiempo.charAt(3) + tiempo.charAt(4)
+        segundos_mas_dos = (parseInt(segundos) + 2).toString()
+        if (parseInt(segundos_mas_dos) > 59) {
+            minutos = tiempo.charAt(0) + tiempo.charAt(1)
+            minutos_mas_uno = (parseInt(minutos) + 1).toString()
+            segundos_mas_dos = (parseInt(segundos_mas_dos) - 60).toString()
+            if (parseInt(segundos_mas_dos) < 10) { segundos_mas_dos = "0" + segundos_mas_dos }
+            if (parseInt(minutos_mas_uno) < 10) { minutos_mas_uno = "0" + minutos_mas_uno }
+            tiempo = minutos_mas_uno[0] + minutos_mas_uno[1] + tiempo[2] + segundos_mas_dos[0] + segundos_mas_dos[1] + tiempo[5] + tiempo[6] + tiempo[7] + tiempo[8]
+        } else {
+            if (parseInt(segundos_mas_dos) < 10) { segundos_mas_dos = "0" + segundos_mas_dos }
+            tiempo = tiempo[0] + tiempo[1] + tiempo[2] + segundos_mas_dos[0] + segundos_mas_dos[1] + tiempo[5] + tiempo[6] + tiempo[7] + tiempo[8]
+        }
+        tiempos_almacenados[index] = tiempo
+        localStorage.setItem('tiempos_almacenados', tiempos_almacenados)
+        mostrar_array_de_datos(tiempos_almacenados)
     }
-    tiempos_almacenados[index] = tiempo
-    localStorage.setItem('tiempos_almacenados', tiempos_almacenados)
-    mostrar_array_de_datos(tiempos_almacenados)
 }
 
 function dnf(index) {
@@ -268,6 +317,12 @@ function dnf(index) {
 }
 
 var tiempos_almacenados = verificacion_local_storage();
+// Desabilitar que la pagina se desplace al pulsar espacio
+window.addEventListener('keydown', function(event) {
+    if (event.keyCode == 32 && event.target == document.body) {
+        event.preventDefault();
+    }
+});
 
 try {
     generar_mezcla();
@@ -296,10 +351,3 @@ document.getElementById("submit-import").addEventListener('click', function() {
         localStorage.setItem('tiempos_almacenados', tiempos_almacenados)
     }
 })
-
-// Desabilitar que la pagina se desplace al pulsar espacio
-window.addEventListener('keydown', function(event) {
-    if (event.keyCode == 32 && event.target == document.body) {
-        event.preventDefault();
-    }
-});
