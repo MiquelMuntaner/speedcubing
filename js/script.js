@@ -190,6 +190,7 @@ function generar_mezcla() {
         mezcla = mezcla + notacion[numero_random] + "&nbsp;&nbsp;";
     }
     document.getElementById("scramble").innerHTML = mezcla;
+    console.log("mezcla generada")
 }
 
 function almacenar() {
@@ -268,6 +269,12 @@ function dnf(index) {
 
 var tiempos_almacenados = verificacion_local_storage();
 
+try {
+    generar_mezcla();
+} catch(err) {
+    console.log(err);
+}
+
 document.getElementById("export-button").addEventListener('click', function() {
     data = tiempos_almacenados
     navigator.clipboard.writeText(JSON.stringify(data))
@@ -296,9 +303,3 @@ window.addEventListener('keydown', function(event) {
         event.preventDefault();
     }
 });
-
-try {
-    window.onload = generar_mezcla();
-} catch(err) {
-    console.log(err);
-}
