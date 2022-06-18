@@ -1,4 +1,11 @@
 @media (max-width: 600px){
+    .menu li{
+        max-width: 50%;
+        min-width: 50%;
+        text-align: center;
+        margin-bottom: 0;
+    }
+
     #scramble {
         font-size: 17px;
         display: block;

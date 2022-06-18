@@ -45,6 +45,7 @@ body {
     float: left;
 }
 
+/*
 .menu li ul {
     list-style: none;
     display: none;
@@ -54,7 +55,7 @@ body {
 .menu li:hover>ul {
     display: block;
 }
-
+*/
 
 /*Timer*/
 
