@@ -10,12 +10,8 @@ String.prototype.replaceAt = function(index, replacement) {
 }
 
 // funcion para calcular el promedio de un array
-function ArrayAvg(myArray) {
-    var i = 0, summ = 0, ArrayLen = myArray.length;
-    while (i < ArrayLen) {
-        summ = summ + myArray[i++];
-    }
-    return summ / ArrayLen;
+function ArrayAvg(arr) {
+    return arr.reduce((a,b)=> a+=b)/arr.length
 }
 
 /* Funcion que pone un 0 delante de un valor si es necesario */

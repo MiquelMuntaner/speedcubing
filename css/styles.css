@@ -19,6 +19,7 @@ body {
     margin: auto;
     width: 100%;
     overflow: auto;
+    transition: all 350ms;
 }
 
 .menu {
@@ -69,6 +70,7 @@ body {
     font-size: 25px;
     padding-top: 50px;
     padding-bottom: 50px;
+    transition: all 350ms;
 }
 
 #crono {
@@ -86,6 +88,7 @@ body {
     */
     margin-left: 25%;
     margin-right: 25%;
+    transition: all 350ms;
 }
 .stats-table {
     border-collapse: collapse;
@@ -127,6 +130,7 @@ body {
     display: flex;
     justify-content: right;
     margin-right: 20%;
+    transition: all 350ms;
 }
 
 #boton_borrar_tiempos {
@@ -156,6 +160,7 @@ body {
 #lista_tiempos {
     margin-right: 25%;
     margin-left: 25%;
+    transition: all 350ms;
 }
 
 #tiempo {
@@ -274,4 +279,5 @@ body {
     color: none;
     border: none;
     display: none;
+    z-index: 1000;
 }

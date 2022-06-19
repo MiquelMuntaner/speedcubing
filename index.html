@@ -19,7 +19,7 @@
 <body>
     <button id="stop-timer-mobile" type="button" onclick="stop_timer_mobile()"></button>
     <div id="container">
-        <header class="header">
+        <header class="header disapear">
             <ul class="menu">
                 <li><a href="index.html">Cronometro</a></li>
                 <li><a href="export.html">Importar o exportar</a></li>
@@ -27,11 +27,11 @@
         </header>
         <div class="page">
             <div class="timer_div">
-                <p id="scramble" focusable="false"></p>
+                <p id="scramble" class="disapear" focusable="false"></p>
                 <h2 id="crono" focusable="false">00:00.000</h2>
                 <p id="instruciones">Pulsa espacio para iniciar y cualquier tecla para parar</p>
             </div>
-            <div class="stats-div">
+            <div class="stats-div disapear">
                 <table class="stats-table">
                     <thead>
                         <tr>
@@ -55,10 +55,10 @@
                     </tbody>
                 </table>
             </div>
-            <div id="div_borrar_tiempos">
+            <div id="div_borrar_tiempos" class="disapear">
                 <button id="boton_borrar_tiempos" onclick="borrar_tiempos()" focusable="false"><img src="img/trash.png" alt="basura"></button>
             </div>
-            <div id="lista_tiempos">
+            <div id="lista_tiempos" class="disapear">
             </div>
         </div>
     </div>
