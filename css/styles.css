@@ -178,6 +178,15 @@ body {
     width: max-content;
 }
 
+#mostrar_scramble {
+    float: right;
+    padding: 3px;
+    border-radius: 5px;
+    border: none;
+    background-color: white;
+    display: none;
+}
+
 #tiempo hr {
     margin-top: 10px;
 }

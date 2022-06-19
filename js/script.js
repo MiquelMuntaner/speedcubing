@@ -253,7 +253,20 @@ function almacenar() {
 }
 
 function mostrar_datos(tiempo, mezcla, index) {
-    document.getElementById("lista_tiempos").innerHTML = '<button id="boton_borrar_tiempo" onclick="borrar_tiempo(' + index + ')" focusable="false"><img src="img/minitrash.png" alt="basura"></button><button id="plus_two" onclick="plus_two(' + index + ')" focusable="false"><p>+2</p></button><button id="dnf" onclick="dnf(' + index + ')" focusable="false"><p>DNF</p></button><div id="tiempo"><p id="tiempo_tiempo">' + tiempo + '</p><p id="tiempo_scramble">' + mezcla + '</p></div>' + document.getElementById("lista_tiempos").innerHTML
+    document.getElementById("lista_tiempos").innerHTML = 
+    '<button id="boton_borrar_tiempo" onclick="borrar_tiempo(' +
+    index +
+    ')" focusable="false"><img src="img/minitrash.png" alt="basura">' +
+    '<button id="mostrar_scramble" onclick="mostrar_scramble(' + index + ')" focusable="false"><p>scramble</p></button>' +
+    '</button><button id="plus_two" onclick="plus_two(' +
+    index +
+    ')" focusable="false"><p>+2</p></button><button id="dnf" onclick="dnf('
+    + index +
+    ')" focusable="false"><p>DNF</p></button><div id="tiempo"><p id="tiempo_tiempo">' +
+    tiempo +
+    '</p>' +
+    '<p id="tiempo_scramble">' + mezcla + '</p></div>' +
+    document.getElementById("lista_tiempos").innerHTML
 }
 
 function mostrar_array_de_datos(tiempos_almacenados) {
@@ -314,6 +327,21 @@ function dnf(index) {
     tiempos_almacenados[index] = "DNF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
     localStorage.setItem('tiempos_almacenados', tiempos_almacenados)
     mostrar_array_de_datos(tiempos_almacenados)
+}
+
+function reemplazarTodos( texto, reemplazarQue, reemplazarCon, ignorarMayMin){
+    var reemplazarQue = reemplazarQue.replace(/[\\^$.|?*+()[{]/g, "\\$&"),
+        reemplazarCon = reemplazarCon.replace(/\$(?=[$&`'\d])/g, "$$$$"),
+        modif = "g" + (ignorarMayMin ? "i" : ""),
+        regex = new RegExp(reemplazarQue, modif);
+    
+    return texto.replace(regex,reemplazarCon);
+  }
+
+function mostrar_scramble(index){
+    scramble = tiempos_almacenados[index+1]
+    scramble = reemplazarTodos(scramble, "&nbsp;&nbsp;", "  ", true)
+    alert(scramble)
 }
 
 var tiempos_almacenados = verificacion_local_storage();
