@@ -260,3 +260,18 @@ body {
     transition: all 100ms;
     background-color: #678983;
 }
+
+/* Stop timer mobile */
+#stop-timer-mobile {
+    position: absolute;
+    left: 0px;
+  	top: 0px;
+  	right: 0px;
+  	bottom: 0px;
+    min-width: 100vw;
+    min-height:100vh;
+    background-color: transparent;
+    color: none;
+    border: none;
+    display: none;
+}
