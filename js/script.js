@@ -92,7 +92,7 @@ function ao5(tiempos_almacenados) {
         ultimos_5_tiempos = [tiempos[tiempos.length-1], tiempos[tiempos.length-2], tiempos[tiempos.length-3], tiempos[tiempos.length-4], tiempos[tiempos.length-5]]
         
         ultimos_5_tiempos = ultimos_5_tiempos.filter(function(value, index, arr) {
-            return i != "DNF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+            return value.charAt(0) !== "D"
         })
         // Pasando los numeros a milisegundos
         for(i in ultimos_5_tiempos) {
@@ -130,7 +130,7 @@ function ao12(tiempos_almacenados) {
         ultimos_12_tiempos = [tiempos[tiempos.length-1], tiempos[tiempos.length-2], tiempos[tiempos.length-3], tiempos[tiempos.length-4], tiempos[tiempos.length-5], tiempos[tiempos.length-6], tiempos[tiempos.length-7], tiempos[tiempos.length-8], tiempos[tiempos.length-9], tiempos[tiempos.length-10], tiempos[tiempos.length-11], tiempos[tiempos.length-12]]
         
         ultimos_12_tiempos = ultimos_12_tiempos.filter(function(value, index, arr) {
-            return i != "DNF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+            return value.charAt(0) !== "D"
         })
 
         console.log(ultimos_12_tiempos)
@@ -171,7 +171,7 @@ function mo3(tiempos_almacenados) {
         ultimos_3_tiempos = [tiempos[tiempos.length-1], tiempos[tiempos.length-2], tiempos[tiempos.length-3]]
 
         ultimos_3_tiempos = ultimos_3_tiempos.filter(function(value, index, arr) {
-            return i != "DNF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+            return value.charAt(0) !== "D"
         })
         
         // Pasando los numeros a milisegundos
@@ -231,6 +231,12 @@ function generar_mezcla() {
 	scramble = scramble.replace("D D", "D2");
 	scramble = scramble.replace("F F", "F2");
 	scramble = scramble.replace("B B", "B2");
+    scramble = scramble.replace("R' R'", "R2");
+	scramble = scramble.replace("L' L'", "L2");
+	scramble = scramble.replace("U' U'", "U2");
+	scramble = scramble.replace("D' D'", "D2");
+	scramble = scramble.replace("F' F'", "F2");
+	scramble = scramble.replace("B' B'", "B2");
 
     document.getElementById("scramble").innerHTML = scramble;
 }
@@ -249,20 +255,52 @@ function almacenar() {
 }
 
 function mostrar_datos(tiempo, mezcla, index) {
-    document.getElementById("lista_tiempos").innerHTML = 
-    '<button id="boton_borrar_tiempo" onclick="borrar_tiempo(' +
-    index +
-    ')" focusable="false"><img src="img/minitrash.png" alt="basura">' +
-    '<button id="mostrar_scramble" onclick="mostrar_scramble(' + index + ')" focusable="false"><p>scramble</p></button>' +
-    '</button><button id="plus_two" onclick="plus_two(' +
-    index +
-    ')" focusable="false"><p>+2</p></button><button id="dnf" onclick="dnf('
-    + index +
-    ')" focusable="false"><p>DNF</p></button><div id="tiempo"><p id="tiempo_tiempo">' +
-    tiempo +
-    '</p>' +
-    '<p id="tiempo_scramble">' + mezcla + '</p></div>' +
-    document.getElementById("lista_tiempos").innerHTML
+    if(mezcla.charAt(mezcla.length-2) + mezcla.charAt(mezcla.length-1) !== "+2" && tiempo.charAt(0) !== "D") {
+        document.getElementById("lista_tiempos").innerHTML = 
+        '<button id="boton_borrar_tiempo" onclick="borrar_tiempo(' +
+        index +
+        ')" focusable="false"><img src="img/minitrash.png" alt="basura">' +
+        '<button id="mostrar_scramble" onclick="mostrar_scramble(' + index + ')" focusable="false"><p>scramble</p></button>' +
+        '</button><button id="plus_two" onclick="plus_two(' +
+        index +
+        ')" focusable="false"><p>+2</p></button><button id="dnf" onclick="dnf('
+        + index +
+        ')" focusable="false"><p>DNF</p></button><div id="tiempo"><p id="tiempo_tiempo">' +
+        tiempo +
+        '</p>' +
+        '<p id="tiempo_scramble">' + mezcla + '</p></div>' +
+        document.getElementById("lista_tiempos").innerHTML
+    } else if(mezcla.charAt(mezcla.length-2) + mezcla.charAt(mezcla.length-1) === "+2") {
+        document.getElementById("lista_tiempos").innerHTML = 
+        '<button id="boton_borrar_tiempo" onclick="borrar_tiempo(' +
+        index +
+        ')" focusable="false"><img src="img/minitrash.png" alt="basura">' +
+        '<button id="mostrar_scramble" onclick="mostrar_scramble(' + index + ')" focusable="false"><p>scramble</p></button>' +
+        '</button><button id="plus_two_added" onclick="plus_two(' +
+        index +
+        ')" focusable="false"><p>+2</p></button><button id="dnf" onclick="dnf('
+        + index +
+        ')" focusable="false"><p>DNF</p></button><div id="tiempo"><p id="tiempo_tiempo">' +
+        tiempo +
+        '</p>' +
+        '<p id="tiempo_scramble">' + mezcla.replace("+2", "") + '</p></div>' +
+        document.getElementById("lista_tiempos").innerHTML
+    } else if(tiempo.charAt(0) === "D") {
+        document.getElementById("lista_tiempos").innerHTML = 
+        '<button id="boton_borrar_tiempo" onclick="borrar_tiempo(' +
+        index +
+        ')" focusable="false"><img src="img/minitrash.png" alt="basura">' +
+        '<button id="mostrar_scramble" onclick="mostrar_scramble(' + index + ')" focusable="false"><p>scramble</p></button>' +
+        '</button><button id="plus_two" onclick="plus_two(' +
+        index +
+        ')" focusable="false"><p>+2</p></button><button id="dnf_true" onclick="dnf('
+        + index +
+        ')" focusable="false"><p>DNF</p></button><div id="tiempo"><p id="tiempo_tiempo">' +
+        "DNF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+        '</p>' +
+        '<p id="tiempo_scramble">' + mezcla + '</p></div>' +
+        document.getElementById("lista_tiempos").innerHTML
+    }
 }
 
 function mostrar_array_de_datos(tiempos_almacenados) {
@@ -298,8 +336,9 @@ function borrar_tiempo(index) {
 
 function plus_two(index) {
     tiempo = tiempos_almacenados[index]
+    scramble = tiempos_almacenados[index + 1]
     console.log(tiempo)
-    if (tiempo != "DNF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;") {
+    if (tiempo.charAt(0) !== "D" && scramble.charAt(scramble.length-2) + scramble.charAt(scramble.length-1) !== "+2") {
         segundos = tiempo.charAt(3) + tiempo.charAt(4)
         segundos_mas_dos = (parseInt(segundos) + 2).toString()
         if (parseInt(segundos_mas_dos) > 59) {
@@ -314,15 +353,43 @@ function plus_two(index) {
             tiempo = tiempo[0] + tiempo[1] + tiempo[2] + segundos_mas_dos[0] + segundos_mas_dos[1] + tiempo[5] + tiempo[6] + tiempo[7] + tiempo[8]
         }
         tiempos_almacenados[index] = tiempo
+        tiempos_almacenados[index+1] = tiempos_almacenados[index+1] + "+2"
+        localStorage.setItem('tiempos_almacenados', tiempos_almacenados)
+        mostrar_array_de_datos(tiempos_almacenados)
+    } else if(tiempo.charAt(0) !== "D") {
+        segundos = tiempo.charAt(3) + tiempo.charAt(4)
+        segundos_mas_dos = (parseInt(segundos) - 2).toString()
+        if (parseInt(segundos_mas_dos) > 59) {
+            minutos = tiempo.charAt(0) + tiempo.charAt(1)
+            minutos_mas_uno = (parseInt(minutos) + 1).toString()
+            segundos_mas_dos = (parseInt(segundos_mas_dos) - 60).toString()
+            if (parseInt(segundos_mas_dos) < 10) { segundos_mas_dos = "0" + segundos_mas_dos }
+            if (parseInt(minutos_mas_uno) < 10) { minutos_mas_uno = "0" + minutos_mas_uno }
+            tiempo = minutos_mas_uno[0] + minutos_mas_uno[1] + tiempo[2] + segundos_mas_dos[0] + segundos_mas_dos[1] + tiempo[5] + tiempo[6] + tiempo[7] + tiempo[8]
+        } else {
+            if (parseInt(segundos_mas_dos) < 10) { segundos_mas_dos = "0" + segundos_mas_dos }
+            tiempo = tiempo[0] + tiempo[1] + tiempo[2] + segundos_mas_dos[0] + segundos_mas_dos[1] + tiempo[5] + tiempo[6] + tiempo[7] + tiempo[8]
+        }
+        tiempos_almacenados[index] = tiempo
+        tiempos_almacenados[index+1] = tiempos_almacenados[index+1].replace("+2", "")
         localStorage.setItem('tiempos_almacenados', tiempos_almacenados)
         mostrar_array_de_datos(tiempos_almacenados)
     }
 }
 
 function dnf(index) {
-    tiempos_almacenados[index] = "DNF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-    localStorage.setItem('tiempos_almacenados', tiempos_almacenados)
-    mostrar_array_de_datos(tiempos_almacenados)
+    scramble = tiempos_almacenados[index+1]
+    if(tiempos_almacenados[index].charAt(0) !== "D") {
+        if(scramble.charAt(scramble.length-2) + scramble.charAt(scramble.length-1) !== "+2") {
+            tiempos_almacenados[index] = "DNF" + tiempos_almacenados[index]
+            localStorage.setItem('tiempos_almacenados', tiempos_almacenados)
+            mostrar_array_de_datos(tiempos_almacenados)
+        }
+    } else {
+        tiempos_almacenados[index] = tiempos_almacenados[index].replace("DNF", "")
+        localStorage.setItem('tiempos_almacenados', tiempos_almacenados)
+        mostrar_array_de_datos(tiempos_almacenados)
+    }
 }
 
 function reemplazarTodos( texto, reemplazarQue, reemplazarCon, ignorarMayMin){
@@ -355,22 +422,23 @@ try {
 }
 
 document.getElementById("export-button").addEventListener('click', function() {
-    data = tiempos_almacenados
-    navigator.clipboard.writeText(JSON.stringify(data))
+    data = Object.values(tiempos_almacenados)
+    json_string = JSON.stringify(data)
+    json_string = json_string.split('&nbsp;').join(' ')
+    navigator.clipboard.writeText(json_string)
         .then(() => {
         alert("Datos copiados al portapapeles")
     })
         .catch(err => {
         alert('No se pudieron copiar los datos al portapapeles', err);
     })
-    JSON.parse(data)
 })
 
 document.getElementById("submit-import").addEventListener('click', function() {
     var respuesta = confirm("¿Estas seguro de que deseas reescribir todos tus datos?")
     if (respuesta) {
         data = document.getElementById("import").value
-        data = JSON.parse(data)
+        data = JSON.parse(data.replace(' ', '&nbsp;'))
         tiempos_almacenados = data
         localStorage.setItem('tiempos_almacenados', tiempos_almacenados)
     }

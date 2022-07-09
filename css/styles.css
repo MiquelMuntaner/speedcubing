@@ -1,3 +1,8 @@
+:root {
+    --main-bg-color: white;
+    --main-color: #181D31;
+}
+
 * {
     padding: 0;
     margin: 0;
@@ -25,12 +30,12 @@ body {
 .menu {
     width: 100%;
     overflow: auto;
-    background-color: #181D31;
+    background-color: var(--main-color);
     list-style: none;
 }
 
 .menu li a {
-    background-color: #181D31;
+    background-color: var(--main-color);
     color: white;
     text-decoration: none;
     padding: 20px;
@@ -63,7 +68,7 @@ body {
 .timer_div {
     width: 100%;
     text-align: center;
-    color: #181D31;
+    color: var(--main-color);
 }
 
 #scramble {
@@ -101,7 +106,7 @@ body {
 }
 
 .stats-table thead th {
-    background-color: #181D31;
+    background-color: var(--main-color);
     color: white;
     text-align: left;
     font-weight: bold;
@@ -121,7 +126,7 @@ body {
 }
 
 .stats-table tbody tr:last-of-type {
-    border-bottom: 2px solid #181D31;
+    border-bottom: 2px solid var(--main-color);
 }
 
 /*Boton borrar tiempos*/
@@ -242,6 +247,21 @@ body {
     background-color: #678983;
 }
 
+#plus_two_added {
+    float: right;
+    padding: 3px;
+    border-radius: 5px;
+    border: none;
+    background-color: var(--main-color);
+    color: white;
+}
+
+#plus_two_added p {
+    height: 18px;
+    padding: 3px;
+    font-weight: lighter;
+}
+
 #dnf {
     float: right;
     padding: 3px;
@@ -264,6 +284,20 @@ body {
 #dnf:active {
     transition: all 100ms;
     background-color: #678983;
+}
+
+#dnf_true {
+    float: right;
+    padding: 3px;
+    border-radius: 5px;
+    border: none;
+    color: var(--main-bg-color);
+    background-color: var(--main-color);
+}
+#dnf_true p {
+    height: 18px;
+    padding: 3px;
+    font-weight: lighter;
 }
 
 /* Stop timer mobile */
