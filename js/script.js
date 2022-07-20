@@ -266,7 +266,7 @@ function mostrar_datos(tiempo, mezcla, index) {
         dnf_id = "dnf_true"
         tiempo = "DNF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
     }
-    
+
     document.getElementById("lista_tiempos").innerHTML = 
         `<button id="boton_borrar_tiempo" onclick="borrar_tiempo('${index}')" focusable="false"><img src="img/minitrash.png" alt="basura">` +
         `<button id="mostrar_scramble" onclick="mostrar_scramble('${index}')" focusable="false"><p>scramble</p></button>` +
@@ -311,54 +311,53 @@ function borrar_tiempo(index) {
 function plus_two(index) {
     tiempo = tiempos_almacenados[index]
     scramble = tiempos_almacenados[index + 1]
-    console.log(tiempo)
-    if (tiempo.charAt(0) !== "D" && scramble.charAt(scramble.length-2) + scramble.charAt(scramble.length-1) !== "+2") {
-        segundos = tiempo.charAt(3) + tiempo.charAt(4)
-        segundos_mas_dos = (parseInt(segundos) + 2).toString()
-        if (parseInt(segundos_mas_dos) > 59) {
-            minutos = tiempo.charAt(0) + tiempo.charAt(1)
-            minutos_mas_uno = (parseInt(minutos) + 1).toString()
-            segundos_mas_dos = (parseInt(segundos_mas_dos) - 60).toString()
-            if (parseInt(segundos_mas_dos) < 10) { segundos_mas_dos = "0" + segundos_mas_dos }
-            if (parseInt(minutos_mas_uno) < 10) { minutos_mas_uno = "0" + minutos_mas_uno }
-            tiempo = minutos_mas_uno[0] + minutos_mas_uno[1] + tiempo[2] + segundos_mas_dos[0] + segundos_mas_dos[1] + tiempo[5] + tiempo[6] + tiempo[7] + tiempo[8]
+    segundos = parseInt(tiempo.charAt(3) + tiempo.charAt(4))
+
+    if (tiempo.charAt(0) !== "D" && scramble.slice(scramble.length-2) !== "+2") {
+        segundos = (segundos + 2).toString()
+        if (parseInt(segundos) > 59) {
+            minutos = (parseInt(tiempo.charAt(0) + tiempo.charAt(1)) + 1).toString()
+            segundos = (parseInt(segundos) - 60).toString()
+
+            if (parseInt(segundos) < 10) { segundos = "0" + segundos }
+            if (parseInt(minutos) < 10) { minutos = "0" + minutos }
+
+            tiempo = minutos + tiempo[2] + segundos + tiempo.slice(5)
         } else {
-            if (parseInt(segundos_mas_dos) < 10) { segundos_mas_dos = "0" + segundos_mas_dos }
-            tiempo = tiempo[0] + tiempo[1] + tiempo[2] + segundos_mas_dos[0] + segundos_mas_dos[1] + tiempo[5] + tiempo[6] + tiempo[7] + tiempo[8]
+            if (parseInt(segundos) < 10) { segundos = "0" + segundos }
+            tiempo = tiempo.slice(0, 3) + segundos + tiempo.slice(5)
         }
-        tiempos_almacenados[index] = tiempo
+
         tiempos_almacenados[index+1] = tiempos_almacenados[index+1] + "+2"
-        localStorage.setItem('tiempos_almacenados', tiempos_almacenados)
-        mostrar_array_de_datos(tiempos_almacenados)
+
     } else if(tiempo.charAt(0) !== "D") {
-        segundos = tiempo.charAt(3) + tiempo.charAt(4)
-        segundos_mas_dos = (parseInt(segundos) - 2).toString()
-        if (parseInt(segundos_mas_dos) > 59) {
-            minutos = tiempo.charAt(0) + tiempo.charAt(1)
-            minutos_mas_uno = (parseInt(minutos) + 1).toString()
-            segundos_mas_dos = (parseInt(segundos_mas_dos) - 60).toString()
-            if (parseInt(segundos_mas_dos) < 10) { segundos_mas_dos = "0" + segundos_mas_dos }
-            if (parseInt(minutos_mas_uno) < 10) { minutos_mas_uno = "0" + minutos_mas_uno }
-            tiempo = minutos_mas_uno[0] + minutos_mas_uno[1] + tiempo[2] + segundos_mas_dos[0] + segundos_mas_dos[1] + tiempo[5] + tiempo[6] + tiempo[7] + tiempo[8]
+        if (parseInt(segundos) < 2) {
+            minutos = (parseInt(tiempo.charAt(0) + tiempo.charAt(1)) - 1).toString()
+            segundos = (60-segundos).toString()
+
+            if (parseInt(segundos) < 10) { segundos = "0" + segundos }
+            if (parseInt(minutos) < 10) { minutos = "0" + minutos }
+
+            tiempo = minutos + tiempo[2] + segundos + tiempo.slice(5)
         } else {
-            if (parseInt(segundos_mas_dos) < 10) { segundos_mas_dos = "0" + segundos_mas_dos }
-            tiempo = tiempo[0] + tiempo[1] + tiempo[2] + segundos_mas_dos[0] + segundos_mas_dos[1] + tiempo[5] + tiempo[6] + tiempo[7] + tiempo[8]
+            segundos = (segundos - 2).toString()
+            if (parseInt(segundos) < 10) { segundos = "0" + segundos }
+            tiempo = tiempo.slice(0, 3) + segundos + tiempo.slice(5)
         }
-        tiempos_almacenados[index] = tiempo
+
         tiempos_almacenados[index+1] = tiempos_almacenados[index+1].replace("+2", "")
-        localStorage.setItem('tiempos_almacenados', tiempos_almacenados)
-        mostrar_array_de_datos(tiempos_almacenados)
     }
+    tiempos_almacenados[index] = tiempo
+    localStorage.setItem('tiempos_almacenados', tiempos_almacenados)
+    mostrar_array_de_datos(tiempos_almacenados)
 }
 
 function dnf(index) {
     scramble = tiempos_almacenados[index+1]
-    if(tiempos_almacenados[index].charAt(0) !== "D") {
-        if(scramble.charAt(scramble.length-2) + scramble.charAt(scramble.length-1) !== "+2") {
-            tiempos_almacenados[index] = "DNF" + tiempos_almacenados[index]
-            localStorage.setItem('tiempos_almacenados', tiempos_almacenados)
-            mostrar_array_de_datos(tiempos_almacenados)
-        }
+    if(tiempos_almacenados[index].charAt(0) !== "D" && scramble.slice(scramble.length-2) !== "+2") {
+        tiempos_almacenados[index] = "DNF" + tiempos_almacenados[index]
+        localStorage.setItem('tiempos_almacenados', tiempos_almacenados)
+        mostrar_array_de_datos(tiempos_almacenados)
     } else {
         tiempos_almacenados[index] = tiempos_almacenados[index].replace("DNF", "")
         localStorage.setItem('tiempos_almacenados', tiempos_almacenados)
