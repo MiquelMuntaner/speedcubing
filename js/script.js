@@ -255,52 +255,26 @@ function almacenar() {
 }
 
 function mostrar_datos(tiempo, mezcla, index) {
-    if(mezcla.charAt(mezcla.length-2) + mezcla.charAt(mezcla.length-1) !== "+2" && tiempo.charAt(0) !== "D") {
-        document.getElementById("lista_tiempos").innerHTML = 
-        '<button id="boton_borrar_tiempo" onclick="borrar_tiempo(' +
-        index +
-        ')" focusable="false"><img src="img/minitrash.png" alt="basura">' +
-        '<button id="mostrar_scramble" onclick="mostrar_scramble(' + index + ')" focusable="false"><p>scramble</p></button>' +
-        '</button><button id="plus_two" onclick="plus_two(' +
-        index +
-        ')" focusable="false"><p>+2</p></button><button id="dnf" onclick="dnf('
-        + index +
-        ')" focusable="false"><p>DNF</p></button><div id="tiempo"><p id="tiempo_tiempo">' +
-        tiempo +
-        '</p>' +
-        '<p id="tiempo_scramble">' + mezcla + '</p></div>' +
-        document.getElementById("lista_tiempos").innerHTML
-    } else if(mezcla.charAt(mezcla.length-2) + mezcla.charAt(mezcla.length-1) === "+2") {
-        document.getElementById("lista_tiempos").innerHTML = 
-        '<button id="boton_borrar_tiempo" onclick="borrar_tiempo(' +
-        index +
-        ')" focusable="false"><img src="img/minitrash.png" alt="basura">' +
-        '<button id="mostrar_scramble" onclick="mostrar_scramble(' + index + ')" focusable="false"><p>scramble</p></button>' +
-        '</button><button id="plus_two_added" onclick="plus_two(' +
-        index +
-        ')" focusable="false"><p>+2</p></button><button id="dnf" onclick="dnf('
-        + index +
-        ')" focusable="false"><p>DNF</p></button><div id="tiempo"><p id="tiempo_tiempo">' +
-        tiempo +
-        '</p>' +
-        '<p id="tiempo_scramble">' + mezcla.replace("+2", "") + '</p></div>' +
-        document.getElementById("lista_tiempos").innerHTML
+    dnf_id = "dnf"
+    plus_two_id = "plus_two"
+
+    if(mezcla.charAt(mezcla.length-2) + mezcla.charAt(mezcla.length-1) === "+2") {
+        mezcla = mezcla.replace("+2", "")
+        plus_two_id = "plus_two_added"
+
     } else if(tiempo.charAt(0) === "D") {
-        document.getElementById("lista_tiempos").innerHTML = 
-        '<button id="boton_borrar_tiempo" onclick="borrar_tiempo(' +
-        index +
-        ')" focusable="false"><img src="img/minitrash.png" alt="basura">' +
-        '<button id="mostrar_scramble" onclick="mostrar_scramble(' + index + ')" focusable="false"><p>scramble</p></button>' +
-        '</button><button id="plus_two" onclick="plus_two(' +
-        index +
-        ')" focusable="false"><p>+2</p></button><button id="dnf_true" onclick="dnf('
-        + index +
-        ')" focusable="false"><p>DNF</p></button><div id="tiempo"><p id="tiempo_tiempo">' +
-        "DNF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
-        '</p>' +
-        '<p id="tiempo_scramble">' + mezcla + '</p></div>' +
-        document.getElementById("lista_tiempos").innerHTML
+        dnf_id = "dnf_true"
+        tiempo = "DNF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
     }
+    
+    document.getElementById("lista_tiempos").innerHTML = 
+        `<button id="boton_borrar_tiempo" onclick="borrar_tiempo('${index}')" focusable="false"><img src="img/minitrash.png" alt="basura">` +
+        `<button id="mostrar_scramble" onclick="mostrar_scramble('${index}')" focusable="false"><p>scramble</p></button>` +
+        `</button><button id="${plus_two_id}" onclick="plus_two(${index})" focusable="false"><p>+2</p></button>`+
+        `<button id="${dnf_id}" onclick="dnf(${index})" focusable="false"><p>DNF</p></button>`+
+        `<div id="tiempo"><p id="tiempo_tiempo">${tiempo}</p>` +
+        `<p id="tiempo_scramble">${mezcla}</p></div>` +
+        document.getElementById("lista_tiempos").innerHTML
 }
 
 function mostrar_array_de_datos(tiempos_almacenados) {

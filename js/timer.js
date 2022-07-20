@@ -63,5 +63,5 @@ function stop_timer_mobile() {
     document.getElementById("lista_tiempos").style.cssText = 'opacity: 100;'
 }
 
-document.querySelector('.timer_div').addEventListener('touchstart', touch)
+document.querySelector('#crono').addEventListener('touchstart', touch)
 window.onkeydown = presionar_tecla;
