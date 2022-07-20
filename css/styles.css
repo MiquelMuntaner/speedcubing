@@ -203,7 +203,7 @@ body {
 
 #boton_borrar_tiempo {
     float: right;
-    padding: 3px;
+    padding: 0 3px 0 3px;
     border-radius: 5px;
     border: none;
     background-color: white;
@@ -233,7 +233,7 @@ body {
 
 #plus_two p {
     height: 18px;
-    padding: 3px;
+    padding: 0 3px 0 3px;
     font-weight: lighter;
 }
 
@@ -249,7 +249,7 @@ body {
 
 #plus_two_added {
     float: right;
-    padding: 3px;
+    padding: 0 3px 0 3px;
     border-radius: 5px;
     border: none;
     background-color: var(--main-color);
@@ -272,7 +272,7 @@ body {
 
 #dnf p {
     height: 18px;
-    padding: 3px;
+    padding: 0 3px 0 3px;
     font-weight: lighter;
 }
 
@@ -296,7 +296,7 @@ body {
 }
 #dnf_true p {
     height: 18px;
-    padding: 3px;
+    padding: 0 3px 0 3px;
     font-weight: lighter;
 }
 
