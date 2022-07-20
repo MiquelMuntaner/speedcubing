@@ -6,6 +6,10 @@
         margin-bottom: 0;
     }
 
+    .menu li a {
+        padding: 15px;
+    }
+
     #scramble {
         font-size: 17px;
         display: block;

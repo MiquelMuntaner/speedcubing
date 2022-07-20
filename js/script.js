@@ -268,8 +268,8 @@ function mostrar_datos(tiempo, mezcla, index) {
     }
 
     document.getElementById("lista_tiempos").innerHTML = 
-        `<button id="boton_borrar_tiempo" onclick="borrar_tiempo('${index}')" focusable="false"><img src="img/minitrash.png" alt="basura">` +
-        `<button id="mostrar_scramble" onclick="mostrar_scramble('${index}')" focusable="false"><p>scramble</p></button>` +
+        `<button id="boton_borrar_tiempo" onclick="borrar_tiempo(${index})" focusable="false"><img src="img/minitrash.png" alt="basura">` +
+        `<button id="mostrar_scramble" onclick="mostrar_scramble(${index})" focusable="false"><p>scramble</p></button>` +
         `</button><button id="${plus_two_id}" onclick="plus_two(${index})" focusable="false"><p>+2</p></button>`+
         `<button id="${dnf_id}" onclick="dnf(${index})" focusable="false"><p>DNF</p></button>`+
         `<div id="tiempo"><p id="tiempo_tiempo">${tiempo}</p>` +
