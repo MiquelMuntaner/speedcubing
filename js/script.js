@@ -54,11 +54,9 @@ function convertir_milisegundos(milisegundos) {
 
 function verificacion_local_storage() {
     
-    console.log('Verifying local storage')
     if (localStorage.getItem('tiempos_almacenados') !== undefined && localStorage.getItem('tiempos_almacenados')) {
         tiempos_almacenados = localStorage.getItem('tiempos_almacenados')
         tiempos_almacenados = tiempos_almacenados.split(",")
-        console.log("localstorage obtained")
         try {
             mostrar_array_de_datos(tiempos_almacenados)
         } catch(err) {
@@ -67,130 +65,193 @@ function verificacion_local_storage() {
     } else {
         var tiempos_almacenados = []
         localStorage.setItem('tiempos_almacenados', tiempos_almacenados)
-        console.log("localstorage created")
-    }
-
-    try {
-        ao5(tiempos_almacenados)
-        ao12(tiempos_almacenados)
-        mo3(tiempos_almacenados)
-    } catch(err) {
-        console.log(err);
     }
 
     return tiempos_almacenados
 }
 
-function ao5(tiempos_almacenados) {
+function time_to_milliseconds(time_array){
+    for(i in time_array) {
+        tiempo_en_milisegundos = 0
+        x = time_array[i]
+        tiempo_en_milisegundos += parseInt(x.charAt(6) + x.charAt(7) + x.charAt(8)) + parseInt(x.charAt(3) + x.charAt(4))*1000 + parseInt(x.charAt(0) + x.charAt(1))*60000
+        time_array[i] = tiempo_en_milisegundos
+    }
+    return time_array
+}
+
+function extract_time(tiempos_almacenados) {
     var tiempos = []
     for(i in tiempos_almacenados) {
         if(tiempos_almacenados[i].length == 9) {
             tiempos.push(tiempos_almacenados[i])
         }
     }
-    if (tiempos.length >= 5) {
-        ultimos_5_tiempos = [tiempos[tiempos.length-1], tiempos[tiempos.length-2], tiempos[tiempos.length-3], tiempos[tiempos.length-4], tiempos[tiempos.length-5]]
-        
-        ultimos_5_tiempos = ultimos_5_tiempos.filter(function(value, index, arr) {
-            return value.charAt(0) !== "D"
-        })
-        // Pasando los numeros a milisegundos
-        for(i in ultimos_5_tiempos) {
-            tiempo_en_milisegundos = 0
-            x = ultimos_5_tiempos[i]
-            tiempo_en_milisegundos += parseInt(x.charAt(6) + x.charAt(7) + x.charAt(8)) + parseInt(x.charAt(3) + x.charAt(4))*1000 + parseInt(x.charAt(0) + x.charAt(1))*60000
-            ultimos_5_tiempos[i] = tiempo_en_milisegundos
-        }
+    return tiempos
+}
 
-        // eliminando el mayor y el menor numero
-        var min = Math.min(...ultimos_5_tiempos);
-        var max = Math.max(...ultimos_5_tiempos);
+function show_statistics(tiempos_almacenados){
+    actual_solve(tiempos_almacenados)
+    ao5(tiempos_almacenados)
+    ao12(tiempos_almacenados)
+    mo3(tiempos_almacenados)
 
-        ultimos_5_tiempos.splice(ultimos_5_tiempos.indexOf(min), 1);
-        ultimos_5_tiempos.splice(ultimos_5_tiempos.indexOf(max), 1);
+    best_solve(tiempos_almacenados)
+    best_ao5(tiempos_almacenados)
+    best_ao12(tiempos_almacenados)
+    best_mo3(tiempos_almacenados)
+}
 
-        // haciendo la media de los tres numeros
-        ao5_text = Math.trunc(ArrayAvg(ultimos_5_tiempos))
-
-        // Escribiendo el ao5 en el frontend
-        const ao5_actual = document.getElementById("actual_ao5")
-        ao5_actual.innerHTML = convertir_milisegundos(ao5_text)
+function best_solve(tiempos_almacenados) {
+    let tiempos = time_to_milliseconds(extract_time(tiempos_almacenados))
+    let mejor_tiempo = "----"
+    if(tiempos.length >= 1){
+        mejor_tiempo = Math.min(...tiempos)
+        mejor_tiempo = convertir_milisegundos(mejor_tiempo)
     }
+    const mejor_solucion = document.getElementById("mejor_solucion")
+    mejor_solucion.innerHTML = mejor_tiempo
+}
+
+function actual_solve(tiempos_almacenados) {
+    time = document.getElementById('crono').innerHTML
+    let actual_solve = "----"
+    if (time !== "00:00.000" && tiempos_almacenados.length >= 1) {
+        actual_solve = time
+    }
+    document.getElementById("actual_solucion").innerHTML = actual_solve
+}
+
+function ao_calculator(data) {
+    data = data.filter(function(value, index, arr) {
+        return value.charAt(0) !== "D"
+    })
+    
+    data = time_to_milliseconds(data)
+
+    let min = Math.min(...data);
+    let max = Math.max(...data);
+
+    data.splice(data.indexOf(min), 1);
+    data.splice(data.indexOf(max), 1);
+
+    ao5_text = Math.trunc(ArrayAvg(data))
+
+    return ao5_text
+}
+
+function ao5(tiempos_almacenados) {
+    let tiempos = extract_time(tiempos_almacenados)
+    let ao5_text = "----"
+
+    if (tiempos.length >= 5) {
+        ultimos_5_tiempos = tiempos.slice(tiempos.length-5, tiempos.length)
+        ao5_text = convertir_milisegundos(ao_calculator(ultimos_5_tiempos))
+    }
+
+    const ao5_actual = document.getElementById("actual_ao5")
+    ao5_actual.innerHTML = ao5_text
+}
+
+function best_ao5(tiempos_almacenados){
+    let tiempos = extract_time(tiempos_almacenados)
+    let all_ao5 = []
+    let best_ao5_text = "----"
+
+    if (tiempos.length > 5) {
+        for (let [index, val] of tiempos.entries()) {
+            if (index >= 5) {
+                all_ao5.push(ao_calculator(tiempos.slice(index-5, index)))
+            }
+        }
+    
+        let min_ao5 = Math.min(...all_ao5)
+        best_ao5_text = convertir_milisegundos(min_ao5)
+    
+    } else if (tiempos.length == 5) {
+        best_ao5_text = convertir_milisegundos(ao_calculator(tiempos.slice(tiempos.length-5, tiempos.length)))
+    }
+
+    const mejor_ao5 = document.getElementById("mejor_ao5")
+    mejor_ao5.innerHTML = best_ao5_text
 }
 
 function ao12(tiempos_almacenados) {
-    var tiempos = []
-    for(i in tiempos_almacenados) {
-        if(tiempos_almacenados[i].length == 9) {
-            tiempos.push(tiempos_almacenados[i])
-        }
-    }
+    let tiempos = extract_time(tiempos_almacenados)
+    let ao12_text = "----"
 
     if (tiempos.length >= 12) {
-        ultimos_12_tiempos = [tiempos[tiempos.length-1], tiempos[tiempos.length-2], tiempos[tiempos.length-3], tiempos[tiempos.length-4], tiempos[tiempos.length-5], tiempos[tiempos.length-6], tiempos[tiempos.length-7], tiempos[tiempos.length-8], tiempos[tiempos.length-9], tiempos[tiempos.length-10], tiempos[tiempos.length-11], tiempos[tiempos.length-12]]
-        
-        ultimos_12_tiempos = ultimos_12_tiempos.filter(function(value, index, arr) {
-            return value.charAt(0) !== "D"
-        })
-
-        console.log(ultimos_12_tiempos)
-
-        // Pasando los numeros a milisegundos
-        for(i in ultimos_12_tiempos) {
-            tiempo_en_milisegundos = 0
-            x = ultimos_12_tiempos[i]
-            tiempo_en_milisegundos += parseInt(x.charAt(6) + x.charAt(7) + x.charAt(8)) + parseInt(x.charAt(3) + x.charAt(4))*1000 + parseInt(x.charAt(0) + x.charAt(1))*60000
-            ultimos_12_tiempos[i] = tiempo_en_milisegundos
-        }
-
-        // eliminando el mayor y el menor numero
-        var min = Math.min(...ultimos_12_tiempos);
-        var max = Math.max(...ultimos_12_tiempos);
-
-        ultimos_12_tiempos.splice(ultimos_12_tiempos.indexOf(min), 1);
-        ultimos_12_tiempos.splice(ultimos_12_tiempos.indexOf(max), 1);
-
-        // haciendo la media de los tres numeros
-        ao12_text = Math.trunc(ArrayAvg(ultimos_12_tiempos))
-
-        // Escribiendo el ao5 en el frontend
-        const ao12_actual = document.getElementById("actual_ao12")
-        ao12_actual.innerHTML = convertir_milisegundos(ao12_text)
+        ultimos_12_tiempos = tiempos.slice(tiempos.length-12, tiempos.length)
+        ao12_text = convertir_milisegundos(ao_calculator(ultimos_12_tiempos))
     }
+    const ao12_actual = document.getElementById("actual_ao12")
+    ao12_actual.innerHTML = ao12_text
+}
+
+function best_ao12(tiempos_almacenados){
+    let tiempos = extract_time(tiempos_almacenados)
+    let all_ao12 = []
+    let best_ao12 = "----"
+
+    if(tiempos.length > 12) {
+        for (let [index, val] of tiempos.entries()) {
+            if (index >= 12) {
+                all_ao12.push(ao_calculator(tiempos.slice(index-12, index)))
+            }
+        }
+    
+        let min_ao12 = Math.min(...all_ao12)
+        best_ao12 = convertir_milisegundos(min_ao12)
+    }else if (tiempos.length === 12) {
+        best_ao12 = convertir_milisegundos(ao_calculator(tiempos.slice(tiempos.length-12, tiempos.length)))
+    }
+    const mejor_ao12 = document.getElementById("mejor_ao12")
+    mejor_ao12.innerHTML = best_ao12
+}
+
+function mo3_calculator(data) {
+    data = data.filter(function(value, index, arr) {
+        return value.charAt(0) !== "D"
+    })
+    
+    data = time_to_milliseconds(data)
+    mo3_text = Math.trunc(ArrayAvg(data))
+    return mo3_text
 }
 
 function mo3(tiempos_almacenados) {
-    var tiempos = []
-    for(i in tiempos_almacenados) {
-        if(tiempos_almacenados[i].length == 9) {
-            tiempos.push(tiempos_almacenados[i])
-        }
-    }
-
+    let tiempos = extract_time(tiempos_almacenados)
+    let mo3_text = "----"
     if (tiempos.length >= 3) {
         ultimos_3_tiempos = [tiempos[tiempos.length-1], tiempos[tiempos.length-2], tiempos[tiempos.length-3]]
-
-        ultimos_3_tiempos = ultimos_3_tiempos.filter(function(value, index, arr) {
-            return value.charAt(0) !== "D"
-        })
-        
-        // Pasando los numeros a milisegundos
-        for(i in ultimos_3_tiempos) {
-            tiempo_en_milisegundos = 0
-            x = ultimos_3_tiempos[i]
-            tiempo_en_milisegundos += parseInt(x.charAt(6) + x.charAt(7) + x.charAt(8)) + parseInt(x.charAt(3) + x.charAt(4))*1000 + parseInt(x.charAt(0) + x.charAt(1))*60000
-            ultimos_3_tiempos[i] = tiempo_en_milisegundos
-        }
-
-        // haciendo la media de los tres numeros
-        mo3_text = Math.trunc(ArrayAvg(ultimos_3_tiempos))
-
-        // Escribiendo el ao5 en el frontend
-        const mo3_actual = document.getElementById("actual_mo3")
-        mo3_actual.innerHTML = convertir_milisegundos(mo3_text)
+        mo3_text = convertir_milisegundos(mo3_calculator(ultimos_3_tiempos))
     }
+    const mo3_actual = document.getElementById("actual_mo3")
+    mo3_actual.innerHTML = mo3_text
 }
 
+function best_mo3(tiempos_almacenados){
+    let tiempos = extract_time(tiempos_almacenados)
+    let all_mo3 = []
+    let best_mo3_text = "----"
+
+    if (tiempos.length > 3){
+        for (let [index, val] of tiempos.entries()) {
+            if (index >= 3) {
+                all_mo3.push(mo3_calculator(tiempos.slice(index-3, index)))
+            }
+        }
+    
+        let min_mo3 = Math.min(...all_mo3)
+        best_mo3_text = convertir_milisegundos(min_mo3)
+    } else if(tiempos.length == 3) {
+        ultimos_3_tiempos = [tiempos[tiempos.length-1], tiempos[tiempos.length-2], tiempos[tiempos.length-3]]
+        best_mo3_text = convertir_milisegundos(mo3_calculator(ultimos_3_tiempos))
+    }
+
+    const mejor_mo3 = document.getElementById("mejor_mo3")
+    mejor_mo3.innerHTML = best_mo3_text
+}
 
 // Original scramble generator: https://codepen.io/ET23/pen/ExdrNz
 function shuffle(o) {
@@ -242,16 +303,13 @@ function generar_mezcla() {
 }
 
 function almacenar() {
-    ao5(tiempos_almacenados)
-    ao12(tiempos_almacenados)
-    mo3(tiempos_almacenados)
-    
     resultado = document.getElementById('crono').innerHTML
     mezcla_resultado = document.getElementById('scramble').innerHTML
     num = tiempos_almacenados.length
     mostrar_datos(resultado, mezcla_resultado, num)
     tiempos_almacenados.push(resultado, mezcla_resultado)
     localStorage.setItem('tiempos_almacenados', tiempos_almacenados)
+    show_statistics(tiempos_almacenados)
 }
 
 function mostrar_datos(tiempo, mezcla, index) {
@@ -293,11 +351,15 @@ function borrar_tiempos() {
     var respupesta = confirm("¿Estás seguro de que quieres eliminar todos tus tiempos?")
     if (respupesta) {
         localStorage.setItem('tiempos_almacenados', tiempos_almacenados = [])
+        tiempos_almacenados = []
         document.getElementById("lista_tiempos").innerHTML = ''
 
         //Borramos y volvemos a poner el boton para que al pulsarr espacio no se pulse
         document.getElementById("div_borrar_tiempos").innerHTML = ''
         document.getElementById("div_borrar_tiempos").innerHTML = '<button id="boton_borrar_tiempos" onclick="borrar_tiempos()" focusable="false"><img src="img/trash.png" alt="basura"></button>'
+
+        show_statistics(tiempos_almacenados)
+        document.getElementById('crono').innerHTML = "00:00.000"
     }
 }
 
@@ -305,7 +367,8 @@ function borrar_tiempo(index) {
     tiempos_almacenados.splice(index, 1)
     tiempos_almacenados.splice(index, 1)
     localStorage.setItem('tiempos_almacenados', tiempos_almacenados)
-    mostrar_array_de_datos(tiempos_almacenados)
+    mostrar_array_de_datos(tiempos_almacenados) 
+    show_statistics(tiempos_almacenados) 
 }
 
 function plus_two(index) {
@@ -381,6 +444,8 @@ function mostrar_scramble(index){
 }
 
 var tiempos_almacenados = verificacion_local_storage();
+show_statistics(tiempos_almacenados)
+
 // Desabilitar que la pagina se desplace al pulsar espacio
 window.addEventListener('keydown', function(event) {
     if (event.keyCode == 32 && event.target == document.body) {
